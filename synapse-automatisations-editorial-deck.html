@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Synapse Automatisations IA - Editorial Deck</title>
+  <link rel="icon" type="image/svg+xml" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"%3E%3Crect width="128" height="128" rx="24" fill="%23010203"/%3E%3Cpath fill="%2338a9c7" d="M51 122V79L20 24h33l13 29 28-49h34L80 79v43z"/%3E%3C/svg%3E'>
+  <style>
+    :root {
+      --black: #05070b;
+      --ink: #101827;
+      --navy: #16233a;
+      --navy-deep: #0a101c;
+      --steel: #476982;
+      --steel-soft: #8ca7b9;
+      --frost: #c9d9df;
+      --frost-soft: #e8eef0;
+      --visor: #f28a12;
+      --visor-soft: #ffb64a;
+      --visor-deep: #8b4a09;
+      --blue: var(--steel);
+      --blue-soft: var(--frost);
+      --amber: var(--visor);
+      --amber-soft: var(--visor-soft);
+      --amber-deep: var(--visor-deep);
+      --orange: var(--visor);
+      --orange-deep: var(--visor-deep);
+      --grey: #8f9ca5;
+      --grey-dark: #455360;
+      --paper: #efeee6;
+      --white: #ffffff;
+      --line: rgba(232, 238, 240, 0.14);
+      --line-dark: rgba(5, 7, 11, 0.14);
+      --blue-paper-texture: url("synapse-blue-texture.png");
+      --sans: "Avenir Next", Avenir, "Helvetica Neue", Arial, sans-serif;
+      --serif: Georgia, "Times New Roman", serif;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --ease: cubic-bezier(.2, .72, .18, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      background: var(--black);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 62% 12%, rgba(71, 105, 130, 0.28), transparent 34%),
+        linear-gradient(180deg, #172338 0%, var(--black) 100%);
+      color: var(--white);
+      font-family: var(--sans);
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      border: 0;
+      background: none;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .deck {
+      height: 100dvh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+      background:
+        radial-gradient(circle at 78% 14%, rgba(201, 217, 223, 0.09), transparent 24%),
+        radial-gradient(circle at 18% 82%, rgba(71, 105, 130, 0.22), transparent 30%),
+        linear-gradient(145deg, #172338 0%, #101827 42%, #05070b 100%);
+    }
+
+    .deck::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      pointer-events: none;
+      opacity: 0.11;
+      mix-blend-mode: soft-light;
+      background-image:
+        radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.34) 0 0.6px, transparent 0.8px),
+        radial-gradient(circle at 74% 64%, rgba(255, 255, 255, 0.24) 0 0.7px, transparent 0.9px);
+      background-size: 5px 5px, 7px 7px;
+    }
+
+    .deck::-webkit-scrollbar {
+      width: 0;
+    }
+
+    .topbar {
+      position: fixed;
+      z-index: 40;
+      inset: 22px 28px auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      pointer-events: none;
+    }
+
+    .brand,
+    .nav,
+    .slide-tools {
+      pointer-events: auto;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      padding: 7px 9px;
+      border: 1px solid rgba(232, 238, 240, 0.1);
+      border-radius: 999px;
+      background: rgba(5, 7, 11, 0.24);
+      backdrop-filter: blur(14px);
+      box-shadow: none;
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 32% 24%, rgba(232, 238, 240, 0.14), transparent 22%),
+        #010203;
+      border: 1px solid rgba(232, 238, 240, 0.18);
+      flex: 0 0 auto;
+      box-shadow: 0 0 0 1px rgba(5, 7, 11, 0.8) inset;
+    }
+
+    .brand-mark svg {
+      width: 86%;
+      height: 86%;
+      display: block;
+    }
+
+    .brand span:last-child {
+      display: inline-block;
+      color: rgba(232, 238, 240, 0.72);
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid rgba(232, 238, 240, 0.1);
+      border-radius: 999px;
+      background: rgba(5, 7, 11, 0.22);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav a {
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: rgba(232, 238, 240, 0.52);
+      font-size: 0.72rem;
+      transition: background 0.22s var(--ease), color 0.22s var(--ease);
+      white-space: nowrap;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      background: rgba(232, 238, 240, 0.08);
+      color: rgba(232, 238, 240, 0.92);
+    }
+
+    .slide-tools {
+      display: inline-flex;
+      gap: 7px;
+      padding: 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(232, 238, 240, 0.1);
+      background: rgba(5, 7, 11, 0.22);
+      backdrop-filter: blur(14px);
+    }
+
+    .slide-tools button {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: rgba(232, 238, 240, 0.62);
+      background: rgba(232, 238, 240, 0.05);
+      transition: background 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+    }
+
+    .slide-tools button:hover {
+      background: rgba(232, 238, 240, 0.1);
+      color: var(--frost-soft);
+      transform: translateY(-1px);
+    }
+
+    .slide {
+      position: relative;
+      min-height: 100dvh;
+      scroll-snap-align: start;
+      display: grid;
+      align-items: stretch;
+      overflow: hidden;
+      isolation: isolate;
+      background: var(--navy-deep);
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      background-image:
+        linear-gradient(rgba(232, 238, 240, 0.036) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(232, 238, 240, 0.032) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(ellipse at 50% 48%, #000 0%, #000 40%, transparent 80%);
+      opacity: 0.72;
+    }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 74% 17%, rgba(201, 217, 223, 0.08), transparent 24%),
+        radial-gradient(circle at 16% 86%, rgba(71, 105, 130, 0.18), transparent 28%),
+        linear-gradient(90deg, rgba(5, 7, 11, 0.5), rgba(5, 7, 11, 0.06), rgba(5, 7, 11, 0.6));
+    }
+
+    .slide-inner {
+      width: min(1380px, calc(100vw - 64px));
+      min-height: 100dvh;
+      margin: 0 auto;
+      padding: 92px 0 42px;
+      display: grid;
+      grid-template-columns: minmax(0, 0.96fr) minmax(360px, 0.84fr);
+      gap: 36px;
+      align-items: center;
+      position: relative;
+    }
+
+    .slide-inner::before {
+      content: "";
+      position: absolute;
+      inset: 70px -18px 28px;
+      border: 1px solid rgba(232, 238, 240, 0.08);
+      border-radius: 34px;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .slide-copy {
+      min-width: 0;
+    }
+
+    .hero-layout {
+      grid-template-columns: minmax(0, 1fr);
+      align-items: center;
+    }
+
+    .hero-layout .slide-copy {
+      position: relative;
+      z-index: 2;
+      max-width: 1080px;
+    }
+
+    .hero-bg-visual {
+      position: absolute;
+      top: 1dvh;
+      right: clamp(-240px, -11vw, -118px);
+      width: min(60vw, 820px);
+      height: min(88dvh, 860px);
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.68;
+      filter: saturate(0.92) contrast(1.02);
+    }
+
+    .hero-bg-visual::before,
+    .hero-bg-visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .hero-bg-visual::before {
+      background: url("synapse-agent-workflows-bg.png") center / cover no-repeat;
+      -webkit-mask-image: radial-gradient(ellipse at 72% 45%, #000 0%, #000 48%, rgba(0, 0, 0, 0.56) 62%, transparent 84%);
+      mask-image: radial-gradient(ellipse at 72% 45%, #000 0%, #000 48%, rgba(0, 0, 0, 0.56) 62%, transparent 84%);
+    }
+
+    .hero-bg-visual::after {
+      inset: 36% -12% 0 20%;
+      background:
+        radial-gradient(ellipse at 70% 62%, rgba(242, 96, 18, 0.42), rgba(242, 96, 18, 0.15) 38%, transparent 70%);
+      filter: blur(20px);
+      mix-blend-mode: screen;
+      opacity: 0.72;
+    }
+
+    .decision-layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .hero-layout h1 {
+      max-width: 12.2ch;
+    }
+
+    .hero-layout .lede {
+      max-width: 720px;
+    }
+
+    .meta-row,
+    .card-label,
+    .micro,
+    .metric-label,
+    .slide-count,
+    .caption,
+    .score-label {
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 22px;
+      color: rgba(232, 238, 240, 0.58);
+      font-size: 0.7rem;
+    }
+
+    .meta-row span {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .meta-row span::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.32;
+    }
+
+    h1,
+    h2 {
+      max-width: 10.8ch;
+      color: var(--frost-soft);
+      font-size: clamp(3.6rem, 8vw, 8.9rem);
+      line-height: 0.87;
+      letter-spacing: -0.055em;
+      font-weight: 780;
+    }
+
+    h2 {
+      font-size: clamp(3.2rem, 6.2vw, 7rem);
+      max-width: 11ch;
+    }
+
+    h1 em,
+    h2 em,
+    .serif {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: -0.04em;
+    }
+
+    .lede {
+      max-width: 620px;
+      margin-top: 24px;
+      color: rgba(232, 238, 240, 0.74);
+      font-size: clamp(1rem, 1.35vw, 1.28rem);
+      line-height: 1.62;
+    }
+
+    .lede strong {
+      color: var(--frost-soft);
+      font-weight: 650;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(232, 238, 240, 0.16);
+      color: var(--frost-soft);
+      background: rgba(232, 238, 240, 0.06);
+      font-size: 0.9rem;
+      transition: transform 0.2s var(--ease), background 0.2s var(--ease), border-color 0.2s var(--ease);
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      background: rgba(232, 238, 240, 0.11);
+      border-color: rgba(232, 238, 240, 0.24);
+    }
+
+    .button.primary {
+      background: var(--frost-soft);
+      color: var(--black);
+      border-color: var(--frost-soft);
+    }
+
+    .button.primary:hover {
+      background: var(--frost);
+      border-color: var(--frost);
+    }
+
+    .hero-layout .button-row {
+      display: none;
+    }
+
+    .art-marks {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+      display: none;
+    }
+
+    .slide.editorial .art-marks {
+      display: block;
+    }
+
+    .mark-plus,
+    .mark-line {
+      position: absolute;
+      color: rgba(232, 238, 240, 0.72);
+      opacity: 0.62;
+      filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+    }
+
+    .mark-plus::before,
+    .mark-plus::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 14px;
+      height: 2px;
+      background: currentColor;
+      transform: translate(-50%, -50%);
+      border-radius: 999px;
+    }
+
+    .mark-plus::after {
+      transform: translate(-50%, -50%) rotate(90deg);
+    }
+
+    .mark-line {
+      width: 1px;
+      height: 72px;
+      background: linear-gradient(180deg, transparent, currentColor 24%, currentColor 76%, transparent);
+      opacity: 0.18;
+    }
+
+    .mark-line.horizontal {
+      width: 118px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, currentColor 24%, currentColor 76%, transparent);
+    }
+
+    .mark-a { left: 7%; top: 31%; }
+    .mark-b { left: 7%; top: 50%; }
+    .mark-c { right: 10%; top: 18%; }
+    .mark-d { right: 8%; top: 33%; }
+    .mark-e { left: 3.8%; top: 12%; }
+    .mark-f { right: 6%; bottom: 15%; }
+    .line-a { left: 4.2%; top: 12%; }
+    .line-b { right: 9%; top: 12%; }
+    .line-c { left: 7%; bottom: 10%; }
+
+    .poster {
+      position: relative;
+      min-height: 470px;
+      height: min(640px, calc(100dvh - 134px));
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid rgba(232, 238, 240, 0.14);
+      box-shadow: 0 34px 90px rgba(0, 0, 0, 0.42);
+      background: #111a29;
+    }
+
+    .poster::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(232, 238, 240, 0.052) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(232, 238, 240, 0.048) 1px, transparent 1px);
+      background-size: 78px 78px;
+      mask-image: radial-gradient(ellipse at 48% 50%, #000 0%, #000 48%, transparent 82%);
+      opacity: 0.36;
+      z-index: 2;
+    }
+
+    .poster::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      background:
+        linear-gradient(180deg, rgba(5, 7, 11, 0.08), rgba(5, 7, 11, 0.44)),
+        linear-gradient(90deg, rgba(5, 7, 11, 0.54), transparent 52%, rgba(5, 7, 11, 0.2));
+      pointer-events: none;
+    }
+
+    .poster-content {
+      position: absolute;
+      inset: 24px;
+      z-index: 5;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 18px;
+    }
+
+    .poster-top,
+    .poster-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      color: rgba(232, 238, 240, 0.66);
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .poster-title {
+      align-self: end;
+      max-width: 9ch;
+      font-size: clamp(2.8rem, 5vw, 5.8rem);
+      line-height: 0.9;
+      letter-spacing: -0.055em;
+      font-weight: 780;
+    }
+
+    .poster-title em {
+      display: block;
+      font-family: var(--serif);
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: -0.04em;
+    }
+
+    .portrait {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 38% 18%, rgba(201, 217, 223, 0.28), transparent 19%),
+        linear-gradient(120deg, rgba(71, 105, 130, 0.88), rgba(16, 24, 39, 0.96) 48%, rgba(5, 7, 11, 0.98) 74%),
+        var(--navy-deep);
+    }
+
+    .portrait::before {
+      content: "";
+      position: absolute;
+      width: 55%;
+      height: 82%;
+      right: 0;
+      bottom: 0;
+      border-radius: 50% 0 0 44%;
+      background:
+        radial-gradient(ellipse at 50% 24%, rgba(255, 255, 255, 0.12), transparent 34%),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.88) 66%),
+        rgba(0, 0, 0, 0.58);
+      filter: blur(0.2px);
+      transform: skewX(-7deg);
+    }
+
+    .portrait::after {
+      content: "";
+      position: absolute;
+      width: 32%;
+      height: 30%;
+      right: 20%;
+      top: 22%;
+      border-radius: 55% 42% 42% 58%;
+      background: rgba(0, 0, 0, 0.68);
+      box-shadow: -18px 72px 0 24px rgba(0, 0, 0, 0.54);
+      transform: rotate(-5deg);
+    }
+
+    .poster.orange .portrait {
+      background:
+        radial-gradient(circle at 70% 36%, rgba(242, 138, 18, 0.2), transparent 18%),
+        linear-gradient(120deg, rgba(242, 138, 18, 0.34), rgba(71, 105, 130, 0.62) 38%, rgba(5, 7, 11, 0.98) 69%),
+        var(--navy-deep);
+    }
+
+    .poster.grey .portrait {
+      background:
+        radial-gradient(circle at 70% 30%, rgba(201, 217, 223, 0.2), transparent 22%),
+        linear-gradient(120deg, #476982, #1a2638 42%, #07101c 76%),
+        #111a29;
+    }
+
+    .poster.paper {
+      background: var(--paper);
+      color: var(--black);
+      border-color: rgba(0, 0, 0, 0.14);
+    }
+
+    .poster.paper::before {
+      background-image:
+        linear-gradient(rgba(5, 7, 11, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(5, 7, 11, 0.045) 1px, transparent 1px);
+    }
+
+    .poster.paper::after {
+      background: linear-gradient(180deg, transparent, rgba(246, 243, 234, 0.44));
+    }
+
+    .poster.paper .poster-top,
+    .poster.paper .poster-bottom {
+      color: rgba(5, 7, 11, 0.58);
+    }
+
+    .poster.paper .portrait {
+      background:
+        radial-gradient(circle at 65% 28%, rgba(71, 105, 130, 0.16), transparent 20%),
+        linear-gradient(125deg, rgba(239, 238, 230, 1), rgba(201, 217, 223, 0.9) 38%, rgba(16, 24, 39, 0.9) 74%);
+    }
+
+    .slide-count {
+      position: absolute;
+      top: 78px;
+      right: max(32px, calc((100vw - 1380px) / 2));
+      z-index: 7;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 56px;
+      height: 40px;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: rgba(5, 7, 11, 0.34);
+      color: rgba(232, 238, 240, 0.64);
+      border: 1px solid rgba(232, 238, 240, 0.12);
+      backdrop-filter: blur(18px);
+      font-size: 0.76rem;
+    }
+
+    .content-panel {
+      display: grid;
+      gap: 16px;
+      align-content: center;
+    }
+
+    .editorial-card {
+      border-radius: 22px;
+      border: 1px solid rgba(232, 238, 240, 0.12);
+      background: rgba(232, 238, 240, 0.055);
+      backdrop-filter: blur(16px);
+      padding: 24px;
+    }
+
+    .auto-radar {
+      --auto-color: var(--steel);
+      --auto-soft: var(--steel-soft);
+      --auto-rgb: 71, 105, 130;
+    }
+
+    .auto-brief {
+      --auto-color: var(--frost);
+      --auto-soft: var(--frost-soft);
+      --auto-rgb: 201, 217, 223;
+    }
+
+    .auto-salon {
+      --auto-color: var(--visor);
+      --auto-soft: var(--visor-soft);
+      --auto-rgb: 242, 138, 18;
+    }
+
+    .editorial-card.auto-radar,
+    .editorial-card.auto-brief,
+    .editorial-card.auto-salon,
+    .metric.auto-radar,
+    .metric.auto-brief,
+    .metric.auto-salon,
+    .priority.auto-radar,
+    .priority.auto-brief,
+    .priority.auto-salon {
+      border-color: rgba(var(--auto-rgb), 0.44);
+      background:
+        linear-gradient(145deg, rgba(var(--auto-rgb), 0.14), rgba(232, 238, 240, 0.045));
+    }
+
+    .auto-radar .card-label,
+    .auto-brief .card-label,
+    .auto-salon .card-label,
+    .auto-radar .priority-meta,
+    .auto-brief .priority-meta,
+    .auto-salon .priority-meta {
+      color: rgba(var(--auto-rgb), 0.86);
+    }
+
+    .auto-radar h3,
+    .auto-brief h3,
+    .auto-salon h3 {
+      text-shadow: 0 0 34px rgba(var(--auto-rgb), 0.16);
+    }
+
+    .card-label {
+      display: block;
+      margin-bottom: 13px;
+      color: rgba(232, 238, 240, 0.5);
+      font-size: 0.68rem;
+    }
+
+    .editorial-card h3 {
+      color: var(--frost-soft);
+      font-size: clamp(1.4rem, 2vw, 2.1rem);
+      line-height: 1.04;
+      letter-spacing: -0.035em;
+      margin-bottom: 14px;
+    }
+
+    .editorial-card p,
+    .editorial-card li {
+      color: rgba(232, 238, 240, 0.68);
+      font-size: 0.98rem;
+      line-height: 1.58;
+    }
+
+    .editorial-card ul {
+      margin-top: 14px;
+      padding-left: 18px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .metric {
+      min-height: 112px;
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(232, 238, 240, 0.12);
+      background: rgba(232, 238, 240, 0.055);
+    }
+
+    .metric strong {
+      display: block;
+      color: var(--frost-soft);
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      line-height: 1;
+      letter-spacing: -0.045em;
+      margin-bottom: 10px;
+    }
+
+    .metric span {
+      display: block;
+      color: rgba(232, 238, 240, 0.58);
+      font-size: 0.84rem;
+      line-height: 1.35;
+    }
+
+    .split-cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .step-list {
+      display: grid;
+      gap: 9px;
+      margin-top: 18px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 13px 0;
+      border-top: 1px solid rgba(232, 238, 240, 0.1);
+    }
+
+    .step:first-child {
+      border-top: 0;
+    }
+
+    .step-index {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(232, 238, 240, 0.1);
+      color: var(--frost-soft);
+      font-family: var(--mono);
+      font-size: 0.68rem;
+    }
+
+    .step strong {
+      display: block;
+      color: var(--frost-soft);
+      font-size: 0.98rem;
+      margin-bottom: 2px;
+    }
+
+    .step span span,
+    .step small {
+      display: block;
+      color: rgba(232, 238, 240, 0.54);
+      font-size: 0.83rem;
+      line-height: 1.45;
+    }
+
+    .pipeline {
+      display: grid;
+      gap: 10px;
+    }
+
+    .pipe {
+      position: relative;
+      display: grid;
+      grid-template-columns: 46px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 13px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(232, 238, 240, 0.12);
+      background: rgba(232, 238, 240, 0.055);
+    }
+
+    .pipe b {
+      color: var(--frost-soft);
+      font-size: 0.92rem;
+    }
+
+    .pipe small,
+    .pipe em {
+      display: block;
+      color: rgba(232, 238, 240, 0.53);
+      font-size: 0.75rem;
+      font-style: normal;
+    }
+
+    .pipe em {
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .timeline-column {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+      padding: 22px;
+      border-radius: 22px;
+      border: 1px solid rgba(232, 238, 240, 0.12);
+      background: rgba(232, 238, 240, 0.055);
+      min-height: min(420px, calc(100dvh - 310px));
+    }
+
+    .timeline-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(232, 238, 240, 0.1);
+    }
+
+    .timeline-head strong {
+      color: var(--frost-soft);
+      font-size: 1.08rem;
+    }
+
+    .timeline-head span {
+      color: rgba(242, 138, 18, 0.72);
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .score-board {
+      display: grid;
+      gap: 10px;
+      padding: 20px;
+      border-radius: 24px;
+      border: 1px solid rgba(232, 238, 240, 0.12);
+      background: rgba(5, 7, 11, 0.34);
+      backdrop-filter: blur(16px);
+    }
+
+    .score-row {
+      display: grid;
+      grid-template-columns: minmax(160px, 1.2fr) repeat(5, minmax(58px, 0.56fr)) 70px;
+      gap: 10px;
+      align-items: center;
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(232, 238, 240, 0.052);
+      border: 1px solid rgba(232, 238, 240, 0.09);
+    }
+
+    .score-row.header {
+      background: transparent;
+      border-color: transparent;
+      padding-top: 0;
+      color: rgba(232, 238, 240, 0.42);
+      font-family: var(--mono);
+      font-size: 0.63rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .score-row.winner {
+      border-color: rgba(var(--auto-rgb, 47, 118, 255), 0.62);
+      background: rgba(var(--auto-rgb, 47, 118, 255), 0.17);
+      box-shadow: 0 0 0 1px rgba(var(--auto-rgb, 47, 118, 255), 0.15) inset;
+    }
+
+    .score-name small {
+      display: block;
+      color: rgba(232, 238, 240, 0.44);
+      font-family: var(--mono);
+      font-size: 0.64rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+
+    .score-name strong {
+      color: var(--frost-soft);
+      font-size: 0.98rem;
+      line-height: 1.15;
+    }
+
+    .score-cell {
+      display: grid;
+      gap: 5px;
+      color: rgba(232, 238, 240, 0.72);
+      font-family: var(--mono);
+      font-size: 0.76rem;
+    }
+
+    .score-bar {
+      height: 5px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(232, 238, 240, 0.1);
+    }
+
+    .score-fill {
+      display: block;
+      width: var(--w);
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--blue), var(--blue-soft));
+    }
+
+    .score-row.auto-radar .score-fill {
+      background: linear-gradient(90deg, #23364a, var(--steel));
+    }
+
+    .score-row.auto-brief .score-fill {
+      background: linear-gradient(90deg, var(--steel), var(--frost));
+    }
+
+    .score-row.auto-salon .score-fill {
+      background: linear-gradient(90deg, var(--visor-deep), var(--visor));
+    }
+
+    .score-final {
+      color: var(--frost-soft);
+      font-size: 1.5rem;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      font-weight: 760;
+      text-align: right;
+    }
+
+    .score-note {
+      color: rgba(232, 238, 240, 0.52);
+      font-size: 0.84rem;
+      margin-top: 12px;
+    }
+
+    .priority-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .priority {
+      display: grid;
+      align-content: start;
+      min-height: 240px;
+      padding: 24px;
+      border-radius: 22px;
+      border: 1px solid rgba(232, 238, 240, 0.12);
+      background: rgba(232, 238, 240, 0.055);
+    }
+
+    .priority.primary {
+      background: linear-gradient(145deg, rgba(var(--auto-rgb, 201, 217, 223), 0.2), rgba(232, 238, 240, 0.055));
+      border-color: rgba(var(--auto-rgb, 47, 118, 255), 0.55);
+    }
+
+    .priority h3 {
+      color: var(--frost-soft);
+      font-size: clamp(1.5rem, 2.2vw, 2.2rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      margin: 14px 0;
+    }
+
+    .priority p {
+      color: rgba(232, 238, 240, 0.64);
+      font-size: 0.92rem;
+      line-height: 1.52;
+    }
+
+    .priority-meta {
+      display: block;
+      margin-top: auto;
+      padding-top: 18px;
+      color: rgba(232, 238, 240, 0.48);
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .script {
+      margin-top: 16px;
+      padding: 24px 26px;
+      border-radius: 22px;
+      background: rgba(5, 7, 11, 0.36);
+      border: 1px solid rgba(232, 238, 240, 0.12);
+    }
+
+    .script p {
+      color: rgba(232, 238, 240, 0.72);
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(1rem, 1.35vw, 1.2rem);
+      line-height: 1.55;
+    }
+
+    .theme-blue {
+      background:
+        radial-gradient(ellipse at 56% 35%, rgba(42, 61, 86, 0.22), transparent 48%),
+        linear-gradient(180deg, #202a3e 0%, #1a2538 52%, #0b1220 100%);
+    }
+
+    .theme-blue::before {
+      background-image:
+        linear-gradient(rgba(232, 238, 240, 0.036) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(232, 238, 240, 0.032) 1px, transparent 1px),
+        linear-gradient(rgba(232, 238, 240, 0.056) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(232, 238, 240, 0.05) 1px, transparent 1px);
+      background-size: 92px 92px, 92px 92px, 322px 322px, 322px 322px;
+      mask-image: radial-gradient(ellipse at 50% 48%, #000 0%, #000 62%, transparent 88%);
+      opacity: 0.78;
+    }
+
+    .theme-blue::after {
+      background:
+        radial-gradient(circle at 50% 50%, transparent 44%, rgba(2, 5, 11, 0.5) 100%),
+        var(--blue-paper-texture);
+      background-size: auto, 246px 204px;
+      background-blend-mode: normal, normal;
+      mix-blend-mode: normal;
+      opacity: 0.54;
+    }
+
+    .theme-blue .poster {
+      background:
+        radial-gradient(ellipse at 48% 30%, rgba(66, 88, 114, 0.18), transparent 48%),
+        linear-gradient(180deg, #202d42, #0c1627 74%),
+        #0d1728;
+    }
+
+    .theme-blue .poster::before {
+      background-image:
+        var(--blue-paper-texture);
+      background-size: 246px 204px;
+      background-blend-mode: normal;
+      opacity: 0.5;
+    }
+
+    .theme-blue .poster::after {
+      background:
+        linear-gradient(180deg, rgba(5, 7, 11, 0.04), rgba(5, 7, 11, 0.48)),
+        radial-gradient(circle at 50% 48%, transparent 45%, rgba(4, 7, 13, 0.48) 100%),
+        linear-gradient(90deg, rgba(5, 7, 11, 0.5), transparent 52%, rgba(5, 7, 11, 0.22));
+    }
+
+    .theme-blue .portrait {
+      background:
+        radial-gradient(circle at 36% 16%, rgba(220, 236, 242, 0.32), transparent 18%),
+        radial-gradient(circle at 76% 72%, rgba(71, 105, 130, 0.3), transparent 26%),
+        linear-gradient(122deg, rgba(76, 112, 140, 0.9), rgba(18, 32, 51, 0.98) 48%, rgba(4, 8, 15, 1) 76%),
+        var(--navy-deep);
+    }
+
+    .theme-grey {
+      background:
+        radial-gradient(circle at 70% 20%, rgba(140, 167, 185, 0.18), transparent 26%),
+        linear-gradient(120deg, #283f56, #101827 52%, #05070b);
+    }
+
+    .theme-orange {
+      background:
+        radial-gradient(circle at 76% 34%, rgba(242, 138, 18, 0.18), transparent 25%),
+        linear-gradient(120deg, #24364c, #101827 46%, #05070b);
+    }
+
+    .theme-paper {
+      background: var(--paper);
+      color: var(--black);
+    }
+
+    .theme-paper::before {
+      background-image:
+        linear-gradient(rgba(5, 7, 11, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(5, 7, 11, 0.045) 1px, transparent 1px);
+    }
+
+    .theme-paper::after {
+      background:
+        radial-gradient(circle at 76% 30%, rgba(71, 105, 130, 0.16), transparent 28%),
+        radial-gradient(circle at 8% 80%, rgba(242, 138, 18, 0.08), transparent 24%);
+    }
+
+    .theme-paper h1,
+    .theme-paper h2,
+    .theme-paper .editorial-card h3,
+    .theme-paper .step strong,
+    .theme-paper .metric strong,
+    .theme-paper .score-name strong,
+    .theme-paper .score-final,
+    .theme-paper .priority h3 {
+      color: var(--black);
+    }
+
+    .theme-paper .meta-row,
+    .theme-paper .lede,
+    .theme-paper .editorial-card p,
+    .theme-paper .editorial-card li,
+    .theme-paper .metric span,
+    .theme-paper .step span span,
+    .theme-paper .step small,
+    .theme-paper .score-note,
+    .theme-paper .priority p,
+    .theme-paper .script p {
+      color: rgba(5, 7, 11, 0.68);
+    }
+
+    .theme-paper .editorial-card,
+    .theme-paper .metric,
+    .theme-paper .score-board,
+    .theme-paper .priority,
+    .theme-paper .script {
+      border-color: rgba(5, 7, 11, 0.14);
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .theme-paper .slide-count {
+      background: rgba(239, 238, 230, 0.68);
+      color: rgba(5, 7, 11, 0.72);
+      border-color: rgba(5, 7, 11, 0.12);
+    }
+
+    .theme-paper .score-row {
+      background: rgba(5, 7, 11, 0.05);
+      border-color: rgba(5, 7, 11, 0.08);
+    }
+
+    .theme-paper .score-row.header {
+      background: transparent;
+      border-color: transparent;
+      color: rgba(5, 7, 11, 0.48);
+    }
+
+    .theme-paper .score-row.winner {
+      background: rgba(201, 217, 223, 0.14);
+      border-color: rgba(71, 105, 130, 0.34);
+    }
+
+    .theme-paper .score-cell,
+    .theme-paper .score-name small,
+    .theme-paper .priority-meta,
+    .theme-paper .card-label {
+      color: rgba(5, 7, 11, 0.54);
+    }
+
+    .theme-paper .score-bar {
+      background: rgba(5, 7, 11, 0.12);
+    }
+
+    .theme-paper .editorial-card.auto-radar,
+    .theme-paper .editorial-card.auto-brief,
+    .theme-paper .editorial-card.auto-salon,
+    .theme-paper .metric.auto-radar,
+    .theme-paper .metric.auto-brief,
+    .theme-paper .metric.auto-salon,
+    .theme-paper .priority.auto-radar,
+    .theme-paper .priority.auto-brief,
+    .theme-paper .priority.auto-salon {
+      border-color: rgba(var(--auto-rgb), 0.36);
+      background:
+        linear-gradient(145deg, rgba(var(--auto-rgb), 0.13), rgba(255, 255, 255, 0.56));
+    }
+
+    .theme-paper .auto-radar .card-label,
+    .theme-paper .auto-brief .card-label,
+    .theme-paper .auto-salon .card-label,
+    .theme-paper .auto-radar .priority-meta,
+    .theme-paper .auto-brief .priority-meta,
+    .theme-paper .auto-salon .priority-meta {
+      color: rgb(var(--auto-rgb));
+    }
+
+    .theme-paper .score-row.auto-radar,
+    .theme-paper .score-row.auto-brief,
+    .theme-paper .score-row.auto-salon {
+      border-color: rgba(var(--auto-rgb), 0.18);
+      background: rgba(var(--auto-rgb), 0.08);
+    }
+
+    .theme-paper .score-row.winner.auto-brief {
+      border-color: rgba(var(--auto-rgb), 0.42);
+      background: rgba(var(--auto-rgb), 0.14);
+    }
+
+    @media (max-width: 1180px) {
+      body {
+        overflow: auto;
+      }
+
+      .deck {
+        height: auto;
+        min-height: 100dvh;
+        scroll-snap-type: none;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        inset: auto;
+        padding: 14px;
+        background: rgba(5, 7, 11, 0.72);
+        backdrop-filter: blur(18px);
+        flex-wrap: wrap;
+      }
+
+      .art-marks {
+        display: none !important;
+      }
+
+      .nav {
+        order: 3;
+        width: 100%;
+        justify-content: flex-start;
+        overflow-x: auto;
+      }
+
+      .slide-tools {
+        display: none;
+      }
+
+      .slide {
+        min-height: auto;
+      }
+
+      .slide-inner {
+        width: min(100% - 36px, 820px);
+        min-height: auto;
+        padding: 38px 0 46px;
+        grid-template-columns: 1fr;
+      }
+
+      .slide-inner::before {
+        inset: 24px -6px 24px;
+        border-radius: 24px;
+      }
+
+      .hero-bg-visual {
+        top: 24px;
+        right: -28vw;
+        width: 78vw;
+        height: 52vh;
+        opacity: 0.36;
+      }
+
+      .poster {
+        min-height: 360px;
+        height: 360px;
+        order: -1;
+      }
+
+      .slide-count {
+        top: 18px;
+        right: 18px;
+      }
+
+      .split-cards,
+      .priority-grid,
+      .timeline {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .score-board {
+        overflow-x: auto;
+      }
+
+      .score-row {
+        min-width: 820px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .brand span:last-child {
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .slide-inner {
+        width: min(100% - 28px, 560px);
+        padding: 50px 0 38px;
+        gap: 24px;
+      }
+
+      h1,
+      h2 {
+        font-size: clamp(2.72rem, 14vw, 4.6rem);
+        max-width: 10ch;
+      }
+
+      .lede {
+        font-size: 1rem;
+      }
+
+      .poster {
+        min-height: 310px;
+        height: 310px;
+        border-radius: 22px;
+      }
+
+      .hero-bg-visual {
+        display: none;
+      }
+
+      .poster-content {
+        inset: 18px;
+      }
+
+      .poster-title {
+        font-size: clamp(2.12rem, 11vw, 3.7rem);
+      }
+
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .editorial-card,
+      .priority,
+      .script,
+      .score-board,
+      .timeline-column {
+        padding: 19px;
+      }
+
+      .button-row {
+        margin-top: 24px;
+      }
+
+      .button {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html,
+      .deck {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <a class="brand" href="#hero" aria-label="Retour au début">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 128 128" focusable="false">
+          <rect width="128" height="128" rx="24" fill="#010203"></rect>
+          <path fill="#38a9c7" d="M51 122V79L20 24h33l13 29 28-49h34L80 79v43z"></path>
+        </svg>
+      </span>
+      <span>Synapse Automatisations</span>
+    </a>
+    <nav class="nav" aria-label="Navigation des slides">
+      <a class="active" href="#lecture">Synthèse</a>
+      <a href="#radar">Radar</a>
+      <a href="#brief">Brief ROI</a>
+      <a href="#salon">Salon</a>
+      <a href="#scoring">Scoring</a>
+      <a href="#decision">Décision</a>
+    </nav>
+    <div class="slide-tools" aria-label="Navigation clavier">
+      <button type="button" data-prev aria-label="Slide précédente">↑</button>
+      <button type="button" data-next aria-label="Slide suivante">↓</button>
+    </div>
+  </div>
+
+  <main class="deck" id="deck">
+    <section class="slide theme-blue editorial" id="hero" data-slide>
+      <div class="slide-count">01/07</div>
+      <div class="art-marks" aria-hidden="true">
+        <span class="mark-plus mark-a"></span>
+        <span class="mark-plus mark-b"></span>
+        <span class="mark-plus mark-c"></span>
+        <span class="mark-line line-a"></span>
+        <span class="mark-line horizontal line-c"></span>
+      </div>
+      <div class="hero-bg-visual" aria-hidden="true"></div>
+      <div class="slide-inner hero-layout">
+        <div class="slide-copy">
+          <div class="meta-row">
+            <span>Synapse Développement</span>
+            <span>IA commerciale</span>
+            <span>Avril 2026</span>
+          </div>
+          <h1>Accélérer le cycle commercial par <em>l'IA métier</em></h1>
+          <p class="lede">Trois automatisations pour détecter les bons comptes, préparer les rendez-vous et relancer les événements.</p>
+          <p class="lede"><strong>Chaque système reste supervisé par l'humain et mesuré sur un effet commercial visible.</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide theme-paper" id="lecture" data-slide>
+      <div class="slide-count">02/07</div>
+      <div class="slide-inner">
+        <div class="slide-copy">
+          <div class="meta-row">
+            <span>Lecture rapide</span>
+            <span>90 secondes</span>
+          </div>
+          <h2>L'essentiel en <em>90 secondes</em></h2>
+          <p class="lede">Comprendre vite les trois leviers, comparer leur faisabilité, puis choisir l'automatisation à tester en premier.</p>
+          <div class="metrics" aria-label="Indicateurs de synthèse">
+            <div class="metric auto-radar"><strong>10-15</strong><span>comptes qualifiés par semaine pour le radar.</span></div>
+            <div class="metric auto-brief"><strong>-60%</strong><span>temps de préparation visé avant les rendez-vous.</span></div>
+            <div class="metric auto-salon"><strong>+30%</strong><span>RDV bookés par salon avec un suivi systématique.</span></div>
+            <div class="metric auto-brief"><strong>8.6</strong><span>score de priorité du brief ROI pré-RDV.</span></div>
+          </div>
+        </div>
+        <div class="content-panel">
+          <article class="editorial-card auto-radar">
+            <span class="card-label">01 - Prospection</span>
+            <h3>Radar de comptes à potentiel IA</h3>
+            <p>Surveille les signaux faibles et repère les PME/ETI qui entrent en réflexion IA avant qu'elles formulent une demande.</p>
+          </article>
+          <article class="editorial-card auto-brief">
+            <span class="card-label">02 - Qualification</span>
+            <h3>Brief ROI pré-rendez-vous</h3>
+            <p>L'automatisation prioritaire : un diagnostic d'une page, généré avant chaque RDV, fondé sur les cas Synapse déjà déployés.</p>
+            <ul>
+              <li>MVP testable en 48h.</li>
+              <li>Impact direct sur la conversion RDV vers proposition.</li>
+              <li>Démonstration interne de la méthode Synapse.</li>
+            </ul>
+          </article>
+          <article class="editorial-card auto-salon">
+            <span class="card-label">03 - Événements</span>
+            <h3>Assistant salon + suivi post-événement</h3>
+            <p>Prépare les cibles, capture les échanges terrain, puis déclenche un suivi personnalisé sous quatre heures.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide theme-grey editorial" id="radar" data-slide>
+      <div class="slide-count">03/07</div>
+      <div class="art-marks" aria-hidden="true">
+        <span class="mark-plus mark-a"></span>
+        <span class="mark-plus mark-d"></span>
+        <span class="mark-line line-b"></span>
+      </div>
+      <div class="slide-inner">
+        <div class="slide-copy">
+          <div class="meta-row">
+            <span>01 - Prospection</span>
+            <span>Haut de funnel</span>
+          </div>
+          <h2>Radar de comptes à potentiel <em>IA</em></h2>
+          <p class="lede">Un agent de veille commerciale cherche les entreprises qui montrent déjà des signaux d'intention : recrutement data, projet de transformation, publications LinkedIn, actualité sectorielle.</p>
+          <article class="editorial-card auto-radar">
+            <span class="card-label">Objectif</span>
+            <h3>Détecter les comptes avant qu'ils cherchent un prestataire.</h3>
+            <p>Le radar réduit le temps passé à chercher des pistes et installe une prospection plus proactive sur les entreprises où l'angle IA est déjà crédible.</p>
+          </article>
+        </div>
+        <aside class="poster grey" aria-label="Synthèse radar">
+          <div class="portrait" aria-hidden="true"></div>
+          <div class="poster-content">
+            <div class="poster-top"><span>Prospection</span><span>03/07</span></div>
+            <div class="content-panel">
+              <div class="metrics">
+                <div class="metric auto-radar"><strong>10-15</strong><span>comptes qualifiés / semaine</span></div>
+                <div class="metric auto-radar"><strong>-3h</strong><span>de prospection / commercial</span></div>
+              </div>
+              <div class="step-list">
+                <div class="step"><span class="step-index">01</span><span><strong>Veille automatisée</strong><span>Job boards, news sectorielles et signaux LinkedIn.</span></span></div>
+                <div class="step"><span class="step-index">02</span><span><strong>Enrichissement compte</strong><span>Secteur, taille, décideurs et contexte récent.</span></span></div>
+                <div class="step"><span class="step-index">03</span><span><strong>Scoring IA triple</strong><span>Maturité IA, adéquation Synapse et urgence du signal.</span></span></div>
+                <div class="step"><span class="step-index">✓</span><span><strong>Validation humaine</strong><span>Rapport hebdomadaire, commercial valide puis envoie.</span></span></div>
+              </div>
+            </div>
+            <div class="poster-bottom"><span>Intent signals</span><span>ICP Synapse</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide theme-blue editorial" id="brief" data-slide>
+      <div class="slide-count">04/07</div>
+      <div class="art-marks" aria-hidden="true">
+        <span class="mark-plus mark-b"></span>
+        <span class="mark-plus mark-c"></span>
+        <span class="mark-line line-a"></span>
+      </div>
+      <div class="slide-inner">
+        <div class="slide-copy">
+          <div class="meta-row">
+            <span>02 - Qualification</span>
+            <span>Priorité 1</span>
+          </div>
+          <h2>Brief ROI pré-rendez-vous</h2>
+          <p class="lede">L'automatisation la plus immédiatement rentable : elle transforme chaque rendez-vous confirmé en entretien mieux préparé, plus concret, plus aligné avec les cas Synapse réels.</p>
+          <article class="editorial-card auto-brief">
+            <span class="card-label">Objectif</span>
+            <h3>Arriver en rendez-vous avec un diagnostic, pas un pitch générique.</h3>
+            <p>Pour chaque RDV confirmé, l'agent collecte les données publiques du prospect, évalue sa maturité IA, sélectionne le cas Synapse le plus proche et génère un brief d'une page avec estimation ROI intégrée.</p>
+          </article>
+        </div>
+        <aside class="poster" aria-label="Pipeline brief ROI">
+          <div class="portrait" aria-hidden="true"></div>
+          <div class="poster-content">
+            <div class="poster-top"><span>CRM Trigger</span><span>04/07</span></div>
+            <div class="pipeline">
+              <div class="pipe"><span class="step-index">01</span><span><b>RDV confirmé</b><small>CRM vers agent activé</small></span><em>trigger</em></div>
+              <div class="pipe"><span class="step-index">02</span><span><b>Collecte données</b><small>Web, LinkedIn, actualités</small></span><em>input</em></div>
+              <div class="pipe"><span class="step-index">03</span><span><b>Analyse IA</b><small>Maturité, secteur, stack</small></span><em>score</em></div>
+              <div class="pipe"><span class="step-index">04</span><span><b>Matching cas Synapse</b><small>Base de déploiements réels</small></span><em>ROI</em></div>
+              <div class="pipe"><span class="step-index">✓</span><span><b>Brief validé</b><small>Commercial ajuste et utilise</small></span><em>humain</em></div>
+            </div>
+            <div class="poster-bottom"><span>-60% préparation</span><span>+15 pts conversion</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide theme-orange editorial" id="salon" data-slide>
+      <div class="slide-count">05/07</div>
+      <div class="art-marks" aria-hidden="true">
+        <span class="mark-plus mark-a"></span>
+        <span class="mark-plus mark-d"></span>
+        <span class="mark-line horizontal line-c"></span>
+      </div>
+      <div class="slide-inner">
+        <div class="slide-copy">
+          <div class="meta-row">
+            <span>03 - Événements</span>
+            <span>Terrain vers pipeline</span>
+          </div>
+          <h2>Assistant salon et suivi <em>post-événement</em></h2>
+          <p class="lede">Le système prépare les rencontres, capture les échanges, puis transforme chaque conversation utile en séquence de suivi. L'enjeu est de ne plus perdre les contacts terrain.</p>
+          <div class="metrics">
+            <div class="metric auto-salon"><strong>&lt;4h</strong><span>délai premier suivi</span></div>
+            <div class="metric auto-salon"><strong>100%</strong><span>contacts relancés</span></div>
+            <div class="metric auto-salon"><strong>+30%</strong><span>RDV bookés par salon</span></div>
+            <div class="metric auto-salon"><strong>J+30</strong><span>nurturing après événement</span></div>
+          </div>
+        </div>
+        <div class="timeline" aria-label="Timeline assistant salon">
+          <article class="timeline-column">
+            <div class="timeline-head"><strong>Pré-salon</strong><span>J-72h</span></div>
+            <div class="step"><span class="step-index">01</span><span><strong>Filtrage participants</strong><span>Analyse ICP Synapse contre la liste de l'événement.</span></span></div>
+            <div class="step"><span class="step-index">02</span><span><strong>Fiches cibles générées</strong><span>10-15 profils avec angle de conversation recommandé.</span></span></div>
+            <div class="step"><span class="step-index">03</span><span><strong>Amorce personnalisée</strong><span>Première phrase d'accroche par profil.</span></span></div>
+          </article>
+          <article class="timeline-column">
+            <div class="timeline-head"><strong>Pendant</strong><span>J+0</span></div>
+            <div class="step"><span class="step-index">01</span><span><strong>Note vocale 30s</strong><span>Nom, poste, problème cité et niveau d'intérêt.</span></span></div>
+            <div class="step"><span class="step-index">02</span><span><strong>Transcription Whisper</strong><span>La note devient un contact structuré en temps réel.</span></span></div>
+            <div class="step"><span class="step-index">03</span><span><strong>Alimentation CRM</strong><span>Contact enrichi et qualifié automatiquement.</span></span></div>
+          </article>
+          <article class="timeline-column">
+            <div class="timeline-head"><strong>Post-salon</strong><span>J+0 - J+30</span></div>
+            <div class="step"><span class="step-index">01</span><span><strong>Suivi J+0, &lt;4h</strong><span>Message ancré dans la conversation du salon.</span></span></div>
+            <div class="step"><span class="step-index">02</span><span><strong>Relances J+3 et J+7</strong><span>Rappel neutre et cas Synapse sectoriel pertinent.</span></span></div>
+            <div class="step"><span class="step-index">03</span><span><strong>Nurturing J+30</strong><span>Contenu sectoriel et prochain événement.</span></span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide theme-paper" id="scoring" data-slide>
+      <div class="slide-count">06/07</div>
+      <div class="slide-inner">
+        <div class="slide-copy">
+          <div class="meta-row">
+            <span>Analyse comparative</span>
+            <span>Décision MVP</span>
+          </div>
+          <h2>Scoring de <em>priorisation</em></h2>
+          <p class="lede">Le brief ROI pré-RDV ressort comme le meilleur premier test : impact direct, faible dépendance technique, adoption simple par les commerciaux, cohérence forte avec le discours Synapse.</p>
+          <p class="score-note">Pour le risque, le score bas est meilleur. Les barres affichent donc la lecture décisionnelle : plus la barre est longue, plus l'option est favorable.</p>
+        </div>
+        <div class="score-board" aria-label="Tableau de scoring">
+          <div class="score-row header">
+            <span></span><span>Impact</span><span>Faisabilité</span><span>Données</span><span>Adoption</span><span>Risque bas</span><span>Score</span>
+          </div>
+          <article class="score-row auto-radar">
+            <div class="score-name"><small>01 - Radar</small><strong>Radar prospection IA</strong></div>
+            <div class="score-cell"><div class="score-bar"><span class="score-fill" style="--w:80%"></span></div><span>8</span></div>
+            <div class="score-cell"><div class="score-bar"><span class="score-fill" style="--w:60%"></span></div><span>6</span></div>
+            <div class="score-cell"><div class="score-bar"><span class="score-fill" style="--w:70%"></span></div><span>7</span></div>
+            <div class="score-cell"><div class="score-bar"><span class="score-fill" style="--w:70%"></span></div><span>7</span></div>
+            <div class="score-cell"><div class="score-bar"><span class="score-fill" style="--w:60%; background: var(--orange);"></span></div><span>4</span></div>
+            <div class="score-final">6.4</div>
+          </article>
+          <article class="score-row winner auto-brief">
+            <div class="score-name"><small>02 - Priorité 1</small><strong>Brief ROI pré-RDV</strong></div>
+            <div class="score-cell"><div class="score-bar"><span class="score-fill" style="--w:90%"></span></div><span>9</span></div>
+            <div class="score-cell"><div class="score-bar"><span class="score-fill" style="--w:90%"></span></div><span>9</span></div>
+            <div class="score-cell"><div class="score-bar"><span class="score-fill" style="--w:80%"></span></div><span>8</span></div>
+            <div class="score-cell"><div class="score-bar"><span class="score-fill" style="--w:90%"></span></div><span>9</span></div>
+            <div class="score-cell"><div class="score-bar"><span class="score-fill" style="--w:90%"></span></div><span>2</span></div>
+            <div class="score-final">8.6</div>
+          </article>
+          <article class="score-row auto-salon">
+            <div class="score-name"><small>03 - Salon</small><strong>Assistant salon + suivi</strong></div>
+            <div class="score-cell"><div class="score-bar"><span class="score-fill" style="--w:80%"></span></div><span>8</span></div>
+            <div class="score-cell"><div class="score-bar"><span class="score-fill" style="--w:80%"></span></div><span>8</span></div>
+            <div class="score-cell"><div class="score-bar"><span class="score-fill" style="--w:80%"></span></div><span>8</span></div>
+            <div class="score-cell"><div class="score-bar"><span class="score-fill" style="--w:90%"></span></div><span>9</span></div>
+            <div class="score-cell"><div class="score-bar"><span class="score-fill" style="--w:90%"></span></div><span>2</span></div>
+            <div class="score-final">8.2</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide theme-blue" id="decision" data-slide>
+      <div class="slide-count">07/07</div>
+      <div class="slide-inner decision-layout">
+        <div class="slide-copy">
+          <div class="meta-row">
+            <span>Décision</span>
+            <span>Recommandation</span>
+          </div>
+          <h2>Recommandation</h2>
+          <p class="lede">La séquence recommandée privilégie un MVP rapide, visible et défendable commercialement, avant de passer aux systèmes plus dépendants des données et des événements.</p>
+          <div class="priority-grid">
+            <article class="priority primary auto-brief">
+              <span class="card-label">Priorité 1 - Déployer maintenant</span>
+              <h3>Brief ROI pré-RDV</h3>
+              <p>Impact direct sur le cycle de vente. MVP testable en 48h. Démontre la méthodologie Synapse appliquée en interne, avec cohérence totale avec le discours commercial.</p>
+              <span class="priority-meta">Score 8.6 - MVP : Google Form + Claude API</span>
+            </article>
+            <article class="priority auto-salon">
+              <span class="card-label">Priorité 2 - Prochain salon</span>
+              <h3>Assistant salon + suivi</h3>
+              <p>Testable sur le prochain événement Synapse. ROI visible en une journée. Preuve immédiate de la capacité à traiter des données non structurées.</p>
+              <span class="priority-meta">Score 8.2 - MVP : Tally + Whisper + n8n</span>
+            </article>
+            <article class="priority auto-radar">
+              <span class="card-label">Priorité 3 - Q3 2026</span>
+              <h3>Radar de prospection IA</h3>
+              <p>L'automatisation la plus ambitieuse. Nécessite une calibration de l'ICP et des intégrations API stables. Fort potentiel à long terme sur le haut de funnel.</p>
+              <span class="priority-meta">Score 6.4 - MVP : Google Alerts + Clay</span>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const deck = document.querySelector("#deck");
+    const slides = Array.from(document.querySelectorAll("[data-slide]"));
+    const navLinks = Array.from(document.querySelectorAll(".nav a"));
+    const prevButton = document.querySelector("[data-prev]");
+    const nextButton = document.querySelector("[data-next]");
+
+    function scrollHost() {
+      return deck.scrollHeight > deck.clientHeight + 2 ? deck : document.scrollingElement;
+    }
+
+    function currentScrollTop() {
+      return scrollHost() === deck ? deck.scrollTop : window.scrollY;
+    }
+
+    function slideTop(slide) {
+      return scrollHost() === deck ? slide.offsetTop : slide.getBoundingClientRect().top + window.scrollY;
+    }
+
+    function currentIndex() {
+      const top = currentScrollTop();
+      let best = 0;
+      let bestDistance = Infinity;
+      slides.forEach((slide, index) => {
+        const distance = Math.abs(slideTop(slide) - top);
+        if (distance < bestDistance) {
+          best = index;
+          bestDistance = distance;
+        }
+      });
+      return best;
+    }
+
+    function goToSlide(index) {
+      const clamped = Math.max(0, Math.min(slides.length - 1, index));
+      if (scrollHost() === deck) {
+        deck.scrollTo({ top: slides[clamped].offsetTop, behavior: "smooth" });
+      } else {
+        slides[clamped].scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    function syncNav() {
+      const active = slides[currentIndex()];
+      navLinks.forEach((link) => {
+        link.classList.toggle("active", link.getAttribute("href") === `#${active.id}`);
+      });
+    }
+
+    let ticking = false;
+    deck.addEventListener("scroll", () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        syncNav();
+        ticking = false;
+      });
+    });
+
+    window.addEventListener("scroll", () => {
+      if (scrollHost() === deck || ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        syncNav();
+        ticking = false;
+      });
+    });
+
+    prevButton.addEventListener("click", () => goToSlide(currentIndex() - 1));
+    nextButton.addEventListener("click", () => goToSlide(currentIndex() + 1));
+
+    window.addEventListener("keydown", (event) => {
+      if (event.defaultPrevented || event.altKey || event.metaKey || event.ctrlKey) return;
+      if (event.key === "ArrowDown" || event.key === "PageDown") {
+        event.preventDefault();
+        goToSlide(currentIndex() + 1);
+      }
+      if (event.key === "ArrowUp" || event.key === "PageUp") {
+        event.preventDefault();
+        goToSlide(currentIndex() - 1);
+      }
+      if (event.key === "Home") {
+        event.preventDefault();
+        goToSlide(0);
+      }
+      if (event.key === "End") {
+        event.preventDefault();
+        goToSlide(slides.length - 1);
+      }
+    });
+
+    syncNav();
+  </script>
+</body>
+</html>
